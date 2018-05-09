@@ -1,13 +1,16 @@
 import React from 'react';
+import ReactDOM from 'react-dom';
 import RowInfo from './RowInfo';
 
-export default class TableInfo extends React.Component {
+class TableInfo extends React.Component {
 	constructor(props){
 		super(props);
 		this.state = {
 			recentInfo: [],
 			allTimeInfo: [],
-			showRecent: true
+			showRecent: true,
+			buttonRecent: "btn-primary myButton",
+			buttonAlltime: "btn-default myButton"
 		};
 
 		this.toggleRecent = this.toggleRecent.bind(this);
@@ -15,11 +18,19 @@ export default class TableInfo extends React.Component {
 	}
 
 	toggleRecent(){
-		this.setState({showRecent: true});
+		this.setState({
+			showRecent: true,
+			buttonRecent: "btn-primary myButton",
+			buttonAlltime: "btn-default myButton"
+		});
 	}
 
 	toggleAlltime(){
-		this.setState({showRecent: false});
+		this.setState({
+			showRecent: false,
+			buttonRecent: "btn-default myButton",
+			buttonAlltime: "btn-primary myButton"
+		});
 	}
 
 
@@ -37,7 +48,7 @@ export default class TableInfo extends React.Component {
 	}
 
 	render(){
-		let rRend = "default";
+		let rRend = "Loading...";
 		if(this.state.recentInfo.length > 1) {
 			if(this.state.showRecent == true){
 			rRend = this.state.recentInfo.map((v, ind) => <RowInfo key={ind} userName={v.username} img={v.img} allTime={v.alltime} recent={v.recent} lastUpdate={v.lastUpdate} />);
@@ -48,13 +59,34 @@ export default class TableInfo extends React.Component {
 		}
 
 		return(
-				<tbody>
-					<tr>
-						<td><button onClick={this.toggleRecent}>Sort by Recent Top Points</button></td>
-						<td><button onClick={this.toggleAlltime}>Sort by All Time Top Points</button></td>
-					</tr>
-					{rRend}
-				</tbody>
+			<div className="container">
+				<h1>Free Code Camp Leaderboard</h1>
+				<br />
+				<div className="container">
+					<button className={this.state.buttonRecent} onClick={this.toggleRecent}>Sort by Recent Top Points</button>
+					<button className={this.state.buttonAlltime} onClick={this.toggleAlltime}>Sort by All Time Top Points</button>
+				</div>
+				<table className="table table-striped">
+					<thead>
+						<tr>
+							<th>User</th>
+							<th></th>
+							<th>All Time Points</th>
+							<th>Recent Points</th>
+							<th>Date Last Login</th>
+						</tr>
+					</thead>
+					<tbody>
+						{rRend}
+					</tbody>
+				</table>
+			</div>
 		);
 	}
 }
+
+export default TableInfo;
+
+const wrapper = document.getElementById('app');
+
+wrapper ? ReactDOM.render(<TableInfo />, wrapper) : false;

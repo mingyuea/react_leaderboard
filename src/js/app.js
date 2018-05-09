@@ -1,1 +1,1 @@
-import TableContainer from "./TableContainer.js";
+import TableInfo from "./TableInfo.js";

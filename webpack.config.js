@@ -20,6 +20,23 @@ module.exports = {
         }
       },
       {
+        test: /\.css$/,
+        use: [
+          {
+            loader: 'style-loader'
+          },
+          {
+            loader: 'css-loader',
+            options: {
+              modules: true,
+              localIdentName: "[name]_[local]_[hash:base64]",
+              sourceMap: true,
+              minimize: true
+            }
+          }
+        ]
+      },
+      {
         test: /\.html$/,
         use: [
           {
